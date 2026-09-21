@@ -11,7 +11,22 @@ class Node:
 
     def __str__(self):
         return str(self.value)
+
+class ParentNode:
+    def __init__(self, word, parent = None):
+        self.word = word
+        self.parent = parent
+
+    def make_parent(self, parent):
+        self.parent = parent
+
+    def get_parent(self):
+        return self.parent
     
+    def __str__(self):
+        return str(self.word)
+
+
 class LinkedQ:
     def __init__(self):
         self.__first = None

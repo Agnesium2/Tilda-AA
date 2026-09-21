@@ -1,5 +1,7 @@
 from bintreeFile import Bintree
 from linkedQFile import LinkedQ
+from linkedQFile import ParentNode
+from linkedQFile import SolutionFound
 
 def readfile(filename):
     svenska = Bintree()
@@ -10,24 +12,35 @@ def readfile(filename):
                 svenska.put(ordet)             # in i sökträdet
     return svenska
 
+def writechain(slutordsnod):
+    if slutordsnod != None:
+        writechain(slutordsnod.get_parent())
+        print(slutordsnod)
+
 def makechildren(q, svenska, gamla, ord, slutord):
     alfabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","å","ä","ö"]
-    bokstav = list(ord)
+    bokstav = list(str(ord))
     for j in range(len(bokstav)):
         current = bokstav[j]
         for i in range(29):
             bokstav[j] = alfabet[i]
             testord = "".join(bokstav)
             if testord in svenska and testord not in gamla:
-                q.enqueue(testord)
                 gamla.put(testord)
-                if testord == slutord:
+                testord = ParentNode(testord)
+                testord.make_parent(ord)
+                q.enqueue(testord)
+
+                if str(testord) == slutord:
+                    slutordsnod = testord
+                    writechain(slutordsnod)
                     return True
         bokstav[j] = current
 
 def sök(startord, slutord, svenska, gamla, q):
     if startord in svenska:
         gamla.put(startord)
+        startord = ParentNode(startord)
         q.enqueue(startord)
 
     while not q.is_empty():
@@ -42,7 +55,7 @@ def main():
     q = LinkedQ()
     gamla = Bintree()
 
-    hittad = False
+    hittad  = False
     
     startord = input("Startord: ")
     slutord = input("Slutord: ")

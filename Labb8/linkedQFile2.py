@@ -1,0 +1,66 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+    def set_next(self,next_node):
+        self.next=next_node
+
+    def get_next(self):
+        return self.next
+
+    def __str__(self):
+        return str(self.value)
+
+class ParentNode:
+    def __init__(self, word, parent = None):
+        self.word = word
+        self.parent = parent
+
+    def make_parent(self, parent):
+        self.parent = parent
+
+    def get_parent(self):
+        return self.parent
+    
+    def __str__(self):
+        return str(self.word)
+
+
+class LinkedQ:
+    def __init__(self):
+        self.__first = None
+        self.__last = None
+
+    def is_empty(self):
+        return self.__first == None
+
+    def enqueue(self, item):
+        temp = Node(item)
+
+        if self.__first == None:
+            self.__first = temp
+            self.__last = temp
+
+        else:
+            self.__last.set_next(temp)
+            self.__last = temp
+        
+    def dequeue(self):
+        temp1 = self.__first
+        self.__first = self.__first.next
+        return temp1.value
+    
+    def peek(self):
+        first = self.__first
+        return first.value
+    
+    def __str__(self):
+        temp = self.__first
+        return_str = ""
+        while temp != None:
+            return_str += str(temp.value)
+            temp = temp.next
+        return return_str
+
+    
